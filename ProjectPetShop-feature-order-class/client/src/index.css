@@ -1,0 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap")
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+button.slick-next{
+  right: 0px;
+  z-index: 10;
+  top: 55px;
+}
+
+button.slick-prev{
+  left: 0px;
+  z-index: 10;
+  top: 55px;
+}
+
+button.slick-next::before{
+  color: gray;
+  content: '\276F';
+  background-color: #ffd3d3;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button.slick-prev::before{
+  color: gray;
+  content: '\276E';
+  background-color: #ffd3d3;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.my-masonry-grid {
+  display: -webkit-box; 
+  display: -ms-flexbox; 
+  display: flex;
+  margin-left: -30px; 
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 30px; 
+  background-clip: padding-box;
+}
+
+
+.my-masonry-grid_column > div { 
+  /* background: grey; */
+  margin-bottom: 30px;
+}
+
+.form-input {
+  appearance: none;
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+  border-radius: 0px;
+  padding-top: 0.5rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  color: black;
+}
+
+.form-select {
+  appearance: none;
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+  border-radius: 0px;
+  padding-top: 0.5rem;
+  padding-right: 0.75rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  color: black;
+  width: 100%;
+}
+
+code{
+  white-space: initial;
+}

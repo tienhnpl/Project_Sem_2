@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+
+@layer base {
+  body {
+    @apply font-sans;
+    @apply items-start;
+  }
+  h4 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-3xl;
+  }
+  h1 {
+    @apply text-4xl font-bold;
+  }
+}
+
+.bg-black {
+  background-color: black !important;
+}
+
+.bg-bg-custom {
+  --tw-bg-opacity: 1;
+    background-color: rgb(207 241 241 / var(--tw-bg-opacity));
+}
+
+@layer components {
+  .brightness-75 {
+    filter: brightness(75%);
+  }
+  .shadowItem {
+    @apply shadow-sm shadow-[#ecc497] hover:shadow-2xl hover:shadow-[#ecc497] transition duration-300 ease-in-out;
+  }
+}
