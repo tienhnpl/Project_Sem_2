@@ -121,19 +121,34 @@ export const apiRegister = (data) =>
     }
   });
 
+  // export const apiDeleteUser = (uid) =>
+  // new Promise(async (resolve, reject) => {
+  //   try {
+  //     const response = await axios({
+  //       url: "/user/" +uid,
+  //       method: "delete",
+  //       //params: {id: id} chuyền tham số
+  //     });
+  //     resolve(response);
+  //   } catch (error) {
+  //     reject(error);
+  //   }
+  // });
+
   export const apiDeleteUser = (uid) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const response = await axios({
-        url: "/user/" +uid,
-        method: "delete",
-        //params: {id: id} chuyền tham số
-      });
-      resolve(response);
-    } catch (error) {
-      reject(error);
-    }
-  });
+    new Promise(async (resolve, reject) => {
+      try {
+        const response = await axios({
+          url: `/user/${uid}`, // Sử dụng phương thức DELETE thay vì PUT
+          method: "delete",
+          data: { isDeleted: true }, // Truyền dữ liệu cần cập nhật
+        });
+        resolve(response);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  
 
   export const apiUpdateCurrent = (data) =>
     new Promise(async (resolve, reject) => {
@@ -169,7 +184,7 @@ export const apiRegister = (data) =>
         new Promise(async (resolve, reject) => {
           try {
             const response = await axios({
-              url: "/user/remove-cart" + pid,
+              url: "/user/remove-cart/" + pid,
               method: "delete",
               //params: {id: id} chuyền tham số
             });

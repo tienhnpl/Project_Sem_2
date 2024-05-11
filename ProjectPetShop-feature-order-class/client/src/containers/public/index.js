@@ -9,3 +9,4 @@ export { default as Blog } from "./Blog";
 export { default as FinalRegister } from "./FinalRegister";
 export { default as ResetPassword } from "./ResetPassword";
 export { default as Products } from "./Products";
+export { default as DetailCart } from "./DetailCart";

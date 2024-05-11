@@ -2,6 +2,8 @@ import icons from "./icons"
 
 const { FaStar, FaRegStar } = icons
 
+export const fotmatPrice = number => Math.round(number / 1000) * 1000
+
 export const createSlug = string => string.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(' ').join('-')
 
 export const renderStarFromNumber = (number) => {

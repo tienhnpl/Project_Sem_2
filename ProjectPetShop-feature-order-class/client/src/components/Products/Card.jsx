@@ -34,14 +34,14 @@ const handleClickOption = async(e, flag) => {
   }).then((rs) => {
     if (rs.isConfirmed) navigate(`/${path.LOGIN}`)
   })
-    console.log(productData);
-    const response = await apiUpdateCart({pid: productData._id, subcategory: productData.subcategory})
-    console.log(productData.subcategory);
+    // console.log(productData);
+    const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory})
+    // console.log(productData.subcategory);
     if (response.success) {
-      toast.success(response.mes)
+      toast?.success(response?.mes)
       dispatch(getCurrent());
     }
-      else toast.error(response.mes)
+      else toast?.error(response?.mes)
   }
 }
 
@@ -70,7 +70,7 @@ const handleClickOption = async(e, flag) => {
       <div className="w-full relative">
       {isShowOption && (
   <div className="absolute bottom-0 flex left-0 right-0 justify-center animate-slide-top">
-    {current?.cart?.some(el => el.product === productData._id.toString()) ? (
+    {current?.cart?.some(el => el?.product === productData?._id.toString()) ? (
       <span title="Sản phẩm đã thêm">
         <SelectOption icon={<BsFillCartCheckFill size={40} color="green" />} />
       </span>

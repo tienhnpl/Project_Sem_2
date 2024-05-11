@@ -42,7 +42,7 @@ const queriesDebounce = useDebounce(queries.q,800)
   },[queriesDebounce,params, update]) 
 
   const handleUpdate = async(data) => {
-  const response = await apiUpdateUser(data, editElm._id)
+  const response = await apiUpdateUser(data, editElm?._id)
   if (response.success) {
     setEditElm(null)
     render()
@@ -51,24 +51,54 @@ const queriesDebounce = useDebounce(queries.q,800)
     toast.error(response.mes)
   }
   }
-  const handlerDeleteUser =(uid) => {
+  // const handlerDeleteUser =(uid) => {
+  //   Swal.fire({
+  //     title: 'Bạn có chắc chắn muốn xóa',
+  //     text: 'Bạn đã sẵn sàng xóa người dùng?',
+  //     showCancelButton: true
+  //   }).then(async(result) => {
+  //     if(result.isConfirmed) {
+  //       const response = await apiDeleteUser(uid)
+  //       if (response.success){
+  //         render()
+  //         toast.success(response.mes)
+  //       }else{
+  //         toast.error(response.mes)
+  //       }
+  //     }
+  //   })
+   
+  
+  // }
+
+  const handlerDeleteUser = async (uid) => {
+    if (!uid) {
+      console.error("editElm is undefined or null");
+      return;
+    }
     Swal.fire({
-      title: 'Bạn có chắc chắn muốn xóa',
-      text: 'Bạn đã sẵn sàng xóa người dùng?',
-      showCancelButton: true
-    }).then(async(result) => {
-      if(result.isConfirmed) {
-        const response = await apiDeleteUser(uid)
-        if (response.success){
-          render()
-          toast.success(response.mes)
-        }else{
-          toast.error(response.mes)
+      title: 'Bạn có chắc chắn muốn tạm ẩn người dùng?',
+      text: 'Người dùng sẽ không còn hiển thị nhưng dữ liệu vẫn được lưu trữ',
+      showCancelButton: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await apiDeleteUser(uid);
+          if (response.success) {
+            render();
+            toast.success(response.mes);
+          } else {
+            toast.error(response.mes);
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          toast.error("Đã xảy ra lỗi khi xóa người dùng");
         }
       }
-    })
-   
-  }
+    });
+  };
+  
+
   return (
     <div className={clsx('w-full', editElm && 'pl-16')}>
       <h1 className='h-[75px] flex justify-between items-center text-3xl font-bold px-4 border-b'>

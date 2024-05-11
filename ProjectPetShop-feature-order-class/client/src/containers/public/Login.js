@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import logo from 'assets/imgs/Logo.png';
 import image from 'assets/imgs/Login.jpg';
 import forgotImage from 'assets/imgs/Forgotpassword.jpg'
@@ -30,6 +30,8 @@ const dispatch = useDispatch()
   const [isForgotPassword, setisForgotPassword] = useState(false)
 
   const [isRegister, setIsRegister] = useState(false)
+  const [searchParams] = useSearchParams()
+  console.log(searchParams.get('redirect'));
   const resetPayload = () => {
     setPayLoad({
     email: '',
@@ -62,7 +64,7 @@ const dispatch = useDispatch()
 
     if (invalids === 0){
       if (isRegister){
-        dispatch(showModal(true, <Loading/>))
+        dispatch(showModal(true, <Loading />))
         const response = await apiRegister(payload)
         dispatch(showModal(false, null))
         if (response.success) {
@@ -80,7 +82,7 @@ const dispatch = useDispatch()
         console.log(rs);
         if (rs.success) {
           dispatch(register({isLoggedIn: true, token: rs.accessToken, userData: rs.userData}))
-         navigate(`/${path.HOME}`)
+          searchParams.get('redirect') ? navigate(searchParams.get('redirect')) : navigate(`/${path.HOME}`)
         }else {
           Swal.fire(
             'Oops!', rs.mes,
@@ -91,6 +93,43 @@ const dispatch = useDispatch()
       }
     }
     
+  //   if (invalids === 0){
+  //     if (isRegister){
+  //         dispatch(showModal(true, <Loading />))
+  //         try {
+  //             const response = await apiRegister(payload)
+  //             if (response.success) {
+  //                 Swal.fire(
+  //                     'Congatulation', response.mes,
+  //                     'success'
+  //                 ).then(() => {
+  //                     setIsRegister(false)
+  //                     resetPayload()
+  //                 })
+  //             } else {
+  //                 Swal.fire('Oops!', response.mes, 'error')
+  //             }
+  //         } catch (error) {
+  //             Swal.fire('Oops!', 'There was an error while registering', 'error')
+  //         } finally {
+  //             dispatch(showModal(false, null))
+  //         }
+  //     } else {
+  //         try {
+  //             const rs = await apiLogin(data)
+  //             console.log(rs);
+  //             if (rs.success) {
+  //                 dispatch(register({isLoggedIn: true, token: rs.accessToken, userData: rs.userData}))
+  //                 navigate(`/${path.HOME}`)
+  //             } else {
+  //                 Swal.fire('Oops!', rs.mes, 'error')
+  //             }
+  //         } catch (error) {
+  //             Swal.fire('Oops!', 'There was an error while logging in', 'error')
+  //         }
+  //     }
+  // }
+  
     
   },[payload, isRegister])
 

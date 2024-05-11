@@ -11,6 +11,7 @@ import { FiLogOut } from "react-icons/fi";
 import { logout, clearMessage } from "../../store/user/userSlice";
 import { FaCartShopping } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { showCart } from "store/reducers/appSlice";
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -96,7 +97,7 @@ const Header = () => {
 
         {isLoggedIn && current 
   ? <div className="flex items-center gap-2 mr-[75px]">
-    <div className="flex items-center mr-[50px]">
+    <div onClick={() => dispatch(showCart())} className="flex items-center mr-[50px]">
       <FaCartShopping className="flex justify-center text-black size-8 hover:text-gray-400 cursor-pointer"/>
       <span className="font-semibold">{`${current?.cart?.length || 0}`}</span>
     </div>

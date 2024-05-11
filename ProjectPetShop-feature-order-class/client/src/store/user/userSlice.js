@@ -1,5 +1,5 @@
 import * as actions from './asyncAction';
-import { GET_CURRENT_FULFILLED, GET_CURRENT_PENDING, GET_CURRENT_REJECTED } from '../actions/actionTypes';
+import { GET_CURRENT_FULFILLED, GET_CURRENT_PENDING, GET_CURRENT_REJECTED,UPDATE_CART } from '../actions/actionTypes';
 
 // ActionTypes
 const REGISTER = 'user/register';
@@ -11,7 +11,8 @@ const initialState = {
   current: null,
   token: null,
   isLoading: false,
-  mes: ''
+  mes: '',
+  currentCart: []
 };
 
 // Action creators
@@ -29,6 +30,12 @@ export const logout = () => ({
 export const clearMessage = () => ({
   type: CLEAR_MESSAGE,
 });
+
+export const updateCart = (pid, quantity) => ({
+  type: UPDATE_CART,
+  payload: { pid, quantity },
+});
+
 // Reducer
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -49,7 +56,8 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         current: action.payload,
-        isLoggedIn: true
+        isLoggedIn: true,
+        currentCart : action.payload.cart
       };
     case GET_CURRENT_REJECTED:
       return {
@@ -72,11 +80,29 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         mes: '',
-        }; 
+        };
+        case UPDATE_CART:
+  const { pid, quantity } = action.payload;
+  const updateItemIndex = state.currentCart.findIndex(el => el.product?._id === pid);
+  if (updateItemIndex !== -1) {
+    const updatedCart = [...state.currentCart]; // Tạo bản sao của currentCart
+    updatedCart[updateItemIndex].quantity = quantity;
+    return {
+      ...state,
+      currentCart: updatedCart,
+      mes: '', // Reset message
+    };
+  } else {
+    return {
+      ...state,
+      mes: 'Hãy thử lại sau',
+    };
+  }     
     
     default:
       return state;
   }
 };
 
+// state.currentCart = action.payload
 export default userReducer;

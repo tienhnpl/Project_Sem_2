@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { apiGetProduct,getProducts } from '../../apis';
+import { createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { apiGetProduct,apiUpdateCart,getProducts } from '../../apis';
 import {Breadcrumbs, Button,SelectQuantity,ProductInformation,Card } from '../../components/index';
 import Slider from 'react-slick';
 import ReactImageMagnify from 'react-image-magnify';
@@ -9,6 +9,10 @@ import { Link } from 'react-router-dom';
 import path from "../../utils/path";
 import { FaHome } from "react-icons/fa";
 import DOMPurify from 'dompurify';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrent } from 'store/user/asyncAction';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 
 
@@ -23,6 +27,10 @@ const settings = {
 const DetailProduct = () => {
   const { category, subcategories, pid, title } = useParams(); // Thêm subCategory vào
   const [product, setProduct] = useState(null);
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {current} = useSelector(state => state.user)
   const [currentImage, setCurrentImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState(null);
@@ -76,11 +84,71 @@ const DetailProduct = () => {
     if (flag === 'minus' && quantity === 1) return
     if (flag === 'minus') setQuantity(prev => +prev -1)
     if (flag === 'plus') setQuantity(prev => +prev +1)
-  })
+  },[quantity])
 const handleClickImage = (e,el) => {
   e.stopPropagation();
   setCurrentImage(el)
 }
+
+const handdleAdddToCart = async () => {
+  if (!current) return Swal.fire({
+    title: 'Chưa đăng nhập',
+    text: 'Hãy đăng nhập để mua hàng',
+    icon: 'info',
+    cancelButtonText: 'Trở lại',
+    showCancelButton: true,
+    confirmButtonText: 'Đi tới trang đăng nhập'
+
+  }).then((rs) => {
+    if (rs.isConfirmed) navigate({
+        pathname: `/${path.LOGIN}`,
+        search: createSearchParams({redirect: location.pathname}).toString()
+    })
+  })
+    // console.log(productData);
+    const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity})
+    // console.log(productData.subcategory);
+    if (response.success) {
+      toast?.success(response?.mes)
+      dispatch(getCurrent());
+    }
+      else toast?.error(response?.mes)
+}
+
+const handleBuyNow = async () => {
+  // Kiểm tra xem người dùng đã đăng nhập chưa
+  if (!current) {
+    // Nếu chưa đăng nhập, hiển thị thông báo yêu cầu đăng nhập
+    return Swal.fire({
+      title: 'Chưa đăng nhập',
+      text: 'Hãy đăng nhập để mua hàng',
+      icon: 'info',
+      cancelButtonText: 'Trở lại',
+      showCancelButton: true,
+      confirmButtonText: 'Đi tới trang đăng nhập'
+    }).then((rs) => {
+      if (rs.isConfirmed) {
+        // Nếu người dùng xác nhận, chuyển hướng đến trang đăng nhập và lưu lại đường dẫn trang hiện tại
+        navigate({
+          pathname: `/${path.LOGIN}`,
+          search: createSearchParams({ redirect: location.pathname }).toString()
+        })
+      }
+    });
+  } else {
+    // Nếu đã đăng nhập, thực hiện các bước để thêm sản phẩm vào giỏ hàng và chuyển hướng đến trang thanh toán
+    const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity });
+    if (response.success) {
+      // Nếu thêm vào giỏ hàng thành công, hiển thị thông báo và cập nhật thông tin người dùng
+      dispatch(getCurrent());
+      // Chuyển hướng đến trang thanh toán
+      navigate(`/${path.DETAIL_CART}`);
+    } else {
+      // Nếu có lỗi xảy ra khi thêm vào giỏ hàng, hiển thị thông báo lỗi
+      toast?.error(response?.mes);
+    }
+  }
+};
   return (
     <div className="pl-7">
       <h3>{title}</h3>
@@ -149,8 +217,12 @@ const handleClickImage = (e,el) => {
             <span className='text-sm text-[#DF0000] italic'>{`(Tồn kho: ${product?.quantity} sản phẩm)`}</span>
 
             </div>
-            <Button fw>
+            <Button fw handdleOnClick={handdleAdddToCart}>
               Thêm vào giỏ hàng
+            </Button>
+
+            <Button fw handdleOnClick={handleBuyNow}>
+              Mua ngay
             </Button>
               <Link className='flex items-center gap-2 hover:text-bg-user text-[20px]' to={`${path.Home}`}>Trở về trang chủ <FaHome/></Link>
           </div>

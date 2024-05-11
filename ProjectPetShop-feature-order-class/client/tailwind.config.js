@@ -13,6 +13,13 @@ module.exports = {
         'bg-user': '#D48D6C'
 
       },
+      gridTemplateRows: {
+        // Simple 16 row grid
+        '10': 'repeat(10, minmax(0, 1fr))',
+
+        // Complex site-specific row configuration
+        'layout': '200px minmax(900px, 1fr) 100px',
+      },
       flex: {
         '2': '2 2 0%',
         '3': '3 3 0%',

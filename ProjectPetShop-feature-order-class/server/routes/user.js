@@ -13,13 +13,13 @@ router.get('/logout', ctris.logout)
 router.post('/forgotpassword', ctris.forgotPassword)
 router.put('/resetpassword', ctris.resetPassword)
 router.get('/', [verifyAccessToken, isAdmin],ctris.getUsers)
-router.delete('/:uid', [verifyAccessToken, isAdmin],ctris.deleteUser)
+router.delete('/:uid', [verifyAccessToken, isAdmin], ctris.deleteUser);
 router.put('/current', verifyAccessToken,uploader.single('avatar'), ctris.updateUser)
 router.put('/address', [verifyAccessToken], ctris.updateUserAddress)
 router.put('/cart', [verifyAccessToken], ctris.updateCart)
 router.delete('/remove-cart/:pid', [verifyAccessToken], ctris.removeProductInCart)
 router.put('/:uid', [verifyAccessToken, isAdmin], ctris.updateUserByAdmin)
- 
+  
 
 
   

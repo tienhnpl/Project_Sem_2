@@ -51,9 +51,9 @@ const ProductInformation = ({ totalRatings, ratings, nameProduct, pid, rerender 
         }
     };
 
-    const toggleVote = useCallback(() => {
-        // setIsVote(!isVote)
-    }, []);
+    // const toggleVote = useCallback(() => {
+    //     // setIsVote(!isVote)
+    // }, []);
 
     return (
         <div>

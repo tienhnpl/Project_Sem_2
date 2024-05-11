@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken')
 const sendMail = require('../ultils/sendMail')
 const crypto = require('crypto')
 const makeToken = require('uniqid')
+const IsDeleteUser = require('../models/isDeleteUser'); 
+const path = require('path')
 
 // const register = asyncHandler(async(req, res) => {
 //     const {email, password, firstname, lastname} = req.body
@@ -49,7 +51,7 @@ const register = asyncHandler(async(req, res) => {
 
     return res.json({
         success: true,
-        mes: 'Please check your email to active account'
+        mes: 'Hãy kiểm tra gmail của bạn'
     });
 });
 
@@ -118,9 +120,41 @@ const login = asyncHandler(async(req, res) => {
         throw new Error('Invalid credentials')
     }
 })
+
+const deleteUser = asyncHandler(async (req, res) => {
+    const uid = req.params.uid;
+    const user = await User.findById(uid);
+    if (!user) {
+        return res.status(404).json({ success: false, message: 'Người dùng không tồn tại' });
+    }
+    
+    // Tạo một bản ghi mới trong schema IsDeleteUser
+    const isDeletedUser = new IsDeleteUser({
+        isDeleted: true,
+        deletedBy: req.user._id,
+        deletedAt: new Date(),
+        username: user.firstname, // Lấy thông tin username từ người dùng bị xóa
+        email: user.email,
+        mobile: user.mobile
+    });
+    await isDeletedUser.save();
+    
+    // Xóa người dùng từ bảng User
+    await User.findByIdAndDelete(uid);
+    
+    return res.status(200).json({ success: true, mes: 'Người dùng đã được tạm ẩn', deletedUser: isDeletedUser });
+});
+
+
 const getCurrent = asyncHandler(async (req, res) => {
     const { _id } = req.user
-    const user = await User.findById(_id).select('-refreshToken -password ')
+    const user = await User.findById(_id).select('-refreshToken -password ').populate({
+        path: 'cart',
+        populate: {
+            path: 'product',
+            select: 'title thumb price discount'
+        }
+    })
     return res.status(200).json({
         success: user ? true : false,
         rs: user ? user : 'User not found'
@@ -268,14 +302,14 @@ const getUsers = asyncHandler(async (req, res) => {
         users: response ? response : 'Cannot get products',
     });
 })
-const deleteUser = asyncHandler(async (req, res) => {
-    const { uid } = req.params
-    const response = await User.findByIdAndDelete(uid)
-    return res.status(200).json({
-        success: response ? true : false,
-        mes: response ? `Đã xóa người dùng ${response.email}` : 'Không thể xóa'
-    })
-})
+// const deleteUser = asyncHandler(async (req, res) => {
+//     const { uid } = req.params
+//     const response = await User.findByIdAndDelete(uid)
+//     return res.status(200).json({
+//         success: response ? true : false,
+//         mes: response ? `Đã xóa người dùng ${response.email}` : 'Không thể xóa'
+//     })
+// })
 const updateUser = asyncHandler(async (req, res) => {
     // 
     const { _id } = req.user
@@ -359,6 +393,6 @@ module.exports = {
     updateUserByAdmin,
     updateUserAddress,
     updateCart,
-    finalRegister,
-    removeProductInCart
+    finalRegister, 
+    removeProductInCart,
 }
