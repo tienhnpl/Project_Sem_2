@@ -9,14 +9,14 @@ var orderSchema = new mongoose.Schema({
     }],
     status:{
         type:String,
-        default: 'Proccessing',
-        enum: ['Cancelled', 'Proccessing','Succeed']
+        default: 'Đã hủy',
+        enum: ['Đã hủy','Thành công']
     },
     total:Number,
-    coupon: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Coupon'
-    },
+    // coupon: {
+    //     type: mongoose.Types.ObjectId,
+    //     ref: 'Coupon'
+    // },
     orderBy:{
         type: mongoose.Types.ObjectId,
         ref: 'User'

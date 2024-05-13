@@ -18,7 +18,7 @@ const commonConfig = {
 const commonPersistConfig = {
   key: 'shop/user',
   storage: storage,
-  whitelist: ['isLoggedIn', 'token', 'current'] // chỉ lưu các trường này
+  whitelist: ['isLoggedIn', 'token', 'current', 'currentCart'] // chỉ lưu các trường này
 };
 
 const testPersisConfig = {

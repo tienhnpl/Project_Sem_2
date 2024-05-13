@@ -23,6 +23,8 @@ export { default as Comment } from "./Vote/Comment";
 export { default as Pagination } from "./Pagination/Pagination";
 export { default as PagiItem } from "./Pagination/PagiItem";
 export { default as Loading } from "./Common/Loading";
+export { default as Paypal } from "./Common/Paypal";
+export { default as Congrat } from "./Common/Congrat";
 export { default as AdminSidebar } from "./Sidebar/AdminSidebar";
 export { default as InputForm } from "./Inputs/InputForm";
 export { default as Select } from "./Inputs/Select";
