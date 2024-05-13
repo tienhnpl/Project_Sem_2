@@ -1,9 +1,9 @@
 import { Breadcrumbs, Button, OrderItem, SelectQuantity } from 'components'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-import { updateCart } from 'store/user/userSlice'
+import { Link, useLocation } from 'react-router-dom'
 import { formatMoney } from 'utils/helpers'
+import path from 'utils/path'
 
 const DetailCart = () => {
     const location = useLocation()
@@ -11,13 +11,12 @@ const DetailCart = () => {
     const {currentCart} = useSelector(state => state.user)
     const handleChangeQuantites = (pid, quantity) => {
         console.log({pid, quantity});
-        dispatch(updateCart(pid, Number(quantity)));
     }
   return (
     <div className='p-6 flex flex-col'>
       <div className='w-full px-12'>
-        <h3 className='font-semibold uppercase'>Giỏ hàng</h3>
-        <Breadcrumbs category={(location?.pathname)} />
+        <h3 className='font-semibold text-2xl uppercase'>Giỏ hàng</h3>
+        {/* <Breadcrumbs category={(location?.pathname?.replace('/','')?.split('-')?.join(' '))} /> */}
 
       </div>
 <div className='flex flex-col border w-full mx-auto my-8'>
@@ -57,7 +56,7 @@ const DetailCart = () => {
 </span>
     </span>
     <span className='text-sm italic'>Cám ơn quý khách đã ủng hộ PetVillage</span>
-    <Button style={'w-[150px] h-[50px] bg-black text-white rounded-md'}>Thanh toán</Button>
+    <Link target='_blank' className='bg-black text-white px-4 py-2 rounded-md' to={`/${path.CHECKOUT}`}>Thanh toán</Link>
 </div>    
 </div>
       </div>

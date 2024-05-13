@@ -4,7 +4,7 @@ import Test from "assets/imgs/testItem.png";
 import {renderStarFromNumber} from '../../utils/helpers'
 import { SelectOption } from "components";
 import { FaCartPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { apiUpdateCart } from "apis";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,29 +20,33 @@ const [isShowOption, setIsShowOption] = useState()
 const {current} = useSelector(state => state.user)
 const navigate = useNavigate()
 const dispatch = useDispatch()
+const location = useLocation()
 const handleClickOption = async(e, flag) => {
   e.stopPropagation()
   if (flag === 'SHOPING') {
-  if (!current) return Swal.fire({
-    title: 'Chưa đăng nhập',
-    text: 'Hãy đăng nhập để mua hàng',
-    icon: 'info',
-    cancelButtonText: 'Trở lại',
-    showCancelButton: true,
-    confirmButtonText: 'Đi tới trang đăng nhập'
-
-  }).then((rs) => {
-    if (rs.isConfirmed) navigate(`/${path.LOGIN}`)
-  })
-    // console.log(productData);
-    const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory})
-    // console.log(productData.subcategory);
-    if (response.success) {
-      toast?.success(response?.mes)
-      dispatch(getCurrent());
+      if (!current) return Swal.fire({
+        title: 'Chưa đăng nhập',
+        text: 'Hãy đăng nhập để mua hàng',
+        icon: 'info',
+        cancelButtonText: 'Trở lại',
+        showCancelButton: true,
+        confirmButtonText: 'Đi tới trang đăng nhập'
+    
+      }).then((rs) => {
+        if (rs.isConfirmed) navigate({
+            pathname: `/${path.LOGIN}`,
+            search: createSearchParams({redirect: location.pathname}).toString()
+        })
+      })
+        // console.log(productData);
+        const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1})
+        // console.log(productData.subcategory);
+        if (response.success) {
+          toast?.success(response?.mes)
+          dispatch(getCurrent());
+        }
+          else toast?.error(response?.mes)
     }
-      else toast?.error(response?.mes)
-  }
 }
 
 // image={el.thumb}

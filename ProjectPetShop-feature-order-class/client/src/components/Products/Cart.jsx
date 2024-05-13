@@ -14,7 +14,7 @@ import path from 'utils/path';
 const Cart = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {current} = useSelector(state => state.user)
+    const {currentCart} = useSelector(state => state.user)
     const removeCart = async(pid) => {
         const response = await apiRemoveCart(pid)
     if (response.success) {
@@ -22,7 +22,7 @@ const Cart = () => {
     }
       else toast.error(response.mes)
     }
-    console.log(current);
+    // console.log(current);
   return (
     <div onClick={e => e.stopPropagation()} className='w-[600px] h-screen grid grid-rows-10 bg-white p-6'>
       <header className=' border-b-2 flex justify-between items-center border-blue-500 row-span-1 h-full font-bold text-2xl'>
@@ -30,14 +30,15 @@ const Cart = () => {
         <span onClick={() => dispatch(showCart())} className='cursor-pointer p-2'><IoCloseCircleSharp title='Đóng'/></span>
       </header>
       <section className='row-span-6 flex flex-col gap-3 h-full max-h-full overflow-y-auto py-3'>
-        {!current?.cart && <span className='text-xs italic'>Không có sản phẩm nào được thêm</span>}
-        {current?.cart && current?.cart?.map(el => (
+        {!currentCart && <span className='text-xs italic'>Không có sản phẩm nào được thêm</span>}
+        {currentCart && currentCart?.map(el => (
             <div key={el?._id} className='flex justify-between items-center'>
                 <div className='flex gap-2'>
                 <img src={el?.product?.thumb} alt="thumb" className='w-16 h-16 object-cover' />
                 <div className='flex flex-col gap-1 '>
                     <span className='font-bold'>{el?.product?.title}</span>
                     <span className='text-xs font-semibold'>{el?.subcategory}</span>
+                    <span className='text-xs font-semibold'>{`Số lượng: ${el?.quantity}`}</span>
                     <div className='text-sm'>Giá: <span className='text-base text-red-500'>{formatMoney(el?.product?.price)} vnđ</span></div>
                     <div className='text-sm'>Giảm giá: <span className='text-base text-red-500'>{el?.product?.discount}%</span></div>
                     <div className='text-sm'>Giá mới: <span className='text-base text-red-500'>{formatMoney(el?.product?.price - (el?.product?.price / 100) * el?.product?.discount)} vnđ</span></div>
@@ -53,13 +54,13 @@ const Cart = () => {
                 <span>Tổng tiền: </span>
                 <span className='text-red-500'>
   {formatMoney(
-    current?.cart?.reduce((sum, el) => {
+    currentCart?.reduce((sum, el) => {
       if (el?.product?.discount) {
         // Nếu có giảm giá
-        return sum + Number(el?.product?.price - (el?.product?.price / 100) * el?.product?.discount);
+        return sum + Number(el?.product?.price - (el?.product?.price / 100) * el?.product?.discount) * el?.quantity;
       } else {
         // Nếu không có giảm giá
-        return sum + Number(el?.product?.price);
+        return sum + Number(el?.product?.price)* el?.quantity;
       }
     }, 0)
   ) + ' VNĐ'}
@@ -68,7 +69,7 @@ const Cart = () => {
             <span className='text-center text-gray-700 italic text-xs'>Cám ơn đã ủng hộ PETVILLAGE</span>
         <Button handdleOnClick={() => {
             dispatch(showCart())
-            navigate(`/${path.DETAIL_CART}`)
+            navigate(`/${path.MEMBER}/${path.DETAIL_CART}`)
         }} fw>Mua hàng</Button>
         </div>
 

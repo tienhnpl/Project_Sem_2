@@ -1,9 +1,12 @@
 import { SelectQuantity } from 'components'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { formatMoney } from 'utils/helpers'
+import { updateCart } from 'store/user/userSlice'
+
 
 const OrderItem = ({el, handleChangeQuantites, defaultQuantity=1}) => {
+    const dispatch = useDispatch()
     const {current} = useSelector(state => state.user)
     const [quantity, setQuantity] = useState(() => defaultQuantity)
     const handleQuantity = (number) => {
@@ -16,7 +19,8 @@ const OrderItem = ({el, handleChangeQuantites, defaultQuantity=1}) => {
         if (flag === 'plus') setQuantity(prev => +prev +1)
       }
     useEffect (() => {
-        handleChangeQuantites && handleChangeQuantites(el.product?._id,quantity)
+        dispatch(updateCart(el.product?._id, Number(quantity)));
+        // handleChangeQuantites && handleChangeQuantites(el.product?._id,quantity)
     },[quantity])
 
   return (

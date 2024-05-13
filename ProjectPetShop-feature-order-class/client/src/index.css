@@ -89,3 +89,39 @@ button.slick-prev::before{
 code{
   white-space: initial;
 }
+
+/* .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+} */
+
+.article {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.article-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.content {
+  padding: 15px;
+  /* text-align: center; */
+}
+
+h4 {
+  margin-top: 0;
+}
+
+/* .read-more {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+} */

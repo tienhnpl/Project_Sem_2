@@ -28,7 +28,8 @@ import {
   MemberLayout,
   Personal,
   History,
-  MyCart
+  MyCart,
+  Checkout
 } from 'containers/member';
 import path from "./utils/path";
 import * as actions from "./store/actions";
@@ -60,6 +61,7 @@ function App() {
         </div> }
         {isShowModal && <Modal>{modalChildren}</Modal>}
         <Routes>
+            <Route path={path.CHECKOUT} element={<Checkout />} />
           <Route path={path.PUBLIC} element={<Public />}>
             <Route path={path.HOME} element={<Home />} />
             <Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLLE} element={<DetailProduct/>} />
@@ -69,7 +71,6 @@ function App() {
             <Route path={path.PROMOTION} element={<Promotion />} />
             <Route path={path.STAR} element={<Home />} />
             <Route path={path.PRODUCTS} element={<Products />} />
-            <Route path={path.DETAIL_CART} element={<DetailCart />} />
             <Route path={path.ALL} element={<Home />} />
           </Route>
           <Route path={path.ADMIN} element={<AdminLayout/>}>
@@ -81,7 +82,7 @@ function App() {
           </Route>
           <Route path={path.MEMBER} element={<MemberLayout/>}>
             <Route path={path.PERSONAL} element={<Personal/>}/>
-            <Route path={path.MY_CART} element={<MyCart/>}/>
+            <Route path={path.MY_CART} element={<DetailCart/>}/>
             <Route path={path.HISTORY} element={<History/>}/>
           </Route>
           <Route path={path.LOGIN} element={<Login />} />

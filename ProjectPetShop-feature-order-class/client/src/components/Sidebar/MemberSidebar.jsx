@@ -52,10 +52,18 @@ const MemberSidebar = () => {
                       {item.text}
                     </NavLink>
                   ))}
+
                 </div>}
                   </div>}
+                  
           </Fragment>
         ))}
+        <NavLink 
+                    to={'/'}
+                    className={clsx(notActiveStyle)}
+                    >
+                      Trang chủ
+                    </NavLink>
       </div>
     </div>
   )
