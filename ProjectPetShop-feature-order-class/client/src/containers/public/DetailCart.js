@@ -1,14 +1,35 @@
 import { Breadcrumbs, Button, OrderItem, SelectQuantity } from 'components'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, createSearchParams, useLocation, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import { formatMoney } from 'utils/helpers'
 import path from 'utils/path'
 
 const DetailCart = () => {
     const location = useLocation()
     const dispatch = useDispatch()
-    const {currentCart} = useSelector(state => state.user)
+    const navigate = useNavigate()
+    const {currentCart, current} = useSelector(state => state.user)
+    const handleSubmit = () => {
+        if (!current?.address) return Swal.fire({
+          icon: 'info',
+          title: 'Almost!',
+          text: 'Hãy cập nhật địa chỉ trước khi thanh toán',
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonText: 'Cập nhật ngay',
+          cancelButtonText: 'Trở lại',
+        }).then((result) => {
+            if (result.isConfirmed) navigate({
+              pathname: `/${path.MEMBER}/${path.PERSONAL}`,
+              search: createSearchParams({redirect: location.pathname}).toString()
+            })
+        })
+        else {
+          window.open(`/${path.CHECKOUT}`, '_blank')
+        }
+    }
     const handleChangeQuantites = (pid, quantity) => {
         console.log({pid, quantity});
     }
@@ -56,7 +77,8 @@ const DetailCart = () => {
 </span>
     </span>
     <span className='text-sm italic'>Cám ơn quý khách đã ủng hộ PetVillage</span>
-    <Link target='_blank' className='bg-black text-white px-4 py-2 rounded-md' to={`/${path.CHECKOUT}`}>Thanh toán</Link>
+    <Button handdleOnClick={handleSubmit} style={'h-[40px] w-[100px] bg-black text-white rounded-md'}>Thanh toán</Button>
+    {/* <Link target='_blank' className='bg-black text-white px-4 py-2 rounded-md' to={`/${path.CHECKOUT}`}>Thanh toán</Link> */}
 </div>    
 </div>
       </div>

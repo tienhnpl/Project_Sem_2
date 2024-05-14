@@ -160,6 +160,15 @@ const CreateProducts = () => {
           placeholder='Giá của sản phẩm'
           type='number'
           />
+          <InputForm
+          label='Giảm giá %'
+          register={register}
+          errors={errors}
+          id='discount'
+          style='flex-auto'
+          placeholder='Ví dụ 1 tương đương 1%'
+          type='number'
+          />
          <InputForm
         label='Số Lượng'
         register={register}

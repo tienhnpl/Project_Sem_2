@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { AiOutlineCaretDown,AiOutlineCaretRight } from 'react-icons/ai'
 import { useSelector } from 'react-redux';
 import avatar from 'assets/imgs/avatarUser.png'
+import { TiArrowForward } from "react-icons/ti";
 
 const activeStyle = 'px-4 py-2 flex items-center gap-2 text-gray-800 bg-blue-400'
 const notActiveStyle = 'px-4 py-2 flex items-center gap-2 text-gray-800 hover:bg-blue-100'
@@ -62,6 +63,7 @@ const MemberSidebar = () => {
                     to={'/'}
                     className={clsx(notActiveStyle)}
                     >
+                      <TiArrowForward size={20}/>
                       Trang chủ
                     </NavLink>
       </div>

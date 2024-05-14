@@ -100,6 +100,7 @@ const ManageProducts = () => {
             <th className='text-center py-2'>Danh mục</th>
             <th className='text-center py-2'>Danh mục nhỏ</th>
             <th className='text-center py-2'>Giá</th>
+            <th className='text-center py-2'>Giảm giá</th>
             <th className='text-center py-2'>Số lượng</th>
             <th className='text-center py-2'>Sản phẩm đã bán</th>
             <th className='text-center py-2'>Loại</th>
@@ -119,6 +120,7 @@ const ManageProducts = () => {
                 <td className='text-center py-2'>{el.category}</td>
                 <td className='text-center py-2'>{el.subcategory}</td>
                 <td className='text-center py-2'>{el.price.toLocaleString()}</td>
+                <td className='text-center py-2'>{el.discount}%</td>
                 <td className='text-center py-2'>{el.quantity}</td>
                 <td className='text-center py-2'>{el.sold}</td>
                 <td className='text-center py-2'>{el.subcategories}</td>
