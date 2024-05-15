@@ -88,3 +88,35 @@ export const getProducts = (params) =>
             reject(error);
           }
         });
+      
+        export const apiGetOrders = (params) =>
+          new Promise(async (resolve, reject) => {
+            try {
+              const response = await axios({
+                url: "/order/admin",
+                method: "get",
+                params
+               
+                //params: {id: id} chuyền tham số
+              });
+              resolve(response);
+            } catch (error) {
+              reject(error);
+            }
+          });
+
+          export const apiGetUserOrders = (params) =>
+            new Promise(async (resolve, reject) => {
+              try {
+                const response = await axios({
+                  url: "/order/",
+                  method: "get",
+                  params
+                 
+                  //params: {id: id} chuyền tham số
+                });
+                resolve(response);
+              } catch (error) {
+                reject(error);
+              }
+            });  

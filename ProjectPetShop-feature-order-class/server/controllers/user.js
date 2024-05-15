@@ -344,25 +344,53 @@ const updateUserAddress = asyncHandler(async (req, res) => {
     })
 })
 const updateCart = asyncHandler(async (req, res) => {
-    const { _id } = req.user
-    const {pid, quantity = 1, subcategory} = req.body
-    if (!pid || !subcategory) throw new Error('Missing inputs')
-    const user = await User.findById(_id).select('cart')
-    const alreadyProduct = user?.cart?.find(el => el.product.toString() === pid)
-    if (alreadyProduct) {
-            const response = await User.updateOne({cart: {$elemMatch: alreadyProduct}}, {$set: {"cart.$.quantity": quantity,"cart.$.subcategory": subcategory,}}, {new:true})
-            return res.status(200).json({
-                success: response ? true : false,
-                mes: response ? 'Đã thêm vào giỏ hàng' : 'Đã xảy ra lỗi'
-            })
-    }else {
-        const response = await User.findByIdAndUpdate(_id, {$push: {cart: {product: pid,quantity,subcategory}}}, { new: true})
+    try {
+        const { _id } = req.user; // Lấy ID của người dùng từ yêu cầu
+        const { pid, quantity = 1, subcategory, title } = req.body; // Lấy thông tin từ thân yêu cầu
+
+        if (!pid || !subcategory ) throw new Error('Thiếu thông tin đầu vào'); // Kiểm tra thông tin đầu vào
+        if (quantity <= 0) throw new Error('Số lượng phải là số nguyên dương'); // Kiểm tra số lượng
+
+        const user = await User.findById(_id).select('cart'); // Tìm người dùng theo ID và chỉ chọn giỏ hàng
+        const alreadyProduct = user?.cart?.find(el => el.product.toString() === pid); // Kiểm tra sản phẩm đã có trong giỏ hàng
+
+        let response;
+
+        if (alreadyProduct) {
+            response = await User.updateOne(
+                { _id, "cart.product": pid }, // Điều kiện cập nhật
+                {
+                    $set: {
+                        "cart.$.quantity": quantity,
+                        "cart.$.title": title,
+                        "cart.$.subcategory": subcategory,
+                    }
+                },
+                { new: true }
+            );
+        } else {
+            response = await User.findByIdAndUpdate(
+                _id,
+                { $push: { cart: { product: pid, quantity, subcategory, title } } },
+                { new: true }
+            );
+        }
+
+        const updatedUser = await User.findById(_id).select('cart'); // Lấy lại giỏ hàng đã cập nhật
+
         return res.status(200).json({
-            success: response ? true : false,
-            mes: response ? 'Đã thêm vào giỏ hàng' : 'Đã xảy ra lỗi'
-        })
-    }  
-})
+            success: !!response,
+            mes: response ? 'Đã thêm vào giỏ hàng' : 'Đã xảy ra lỗi',
+            cart: updatedUser.cart // Trả về giỏ hàng đã cập nhật
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            mes: error.message
+        });
+    }
+});
+
 
 const removeProductInCart = asyncHandler(async (req, res) => {
     const { _id } = req.user

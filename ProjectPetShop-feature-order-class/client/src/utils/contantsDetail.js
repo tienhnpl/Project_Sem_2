@@ -142,4 +142,15 @@ const blockStatus = [
     }
 ]
 
-module.exports = { productInfoTabs, subcategories, voteOptions, adminSidebar, roles,blockStatus, memberSidebar };
+const statusOrder= [
+    {
+        label: 'Đã hủy',
+        value: 'Đã hủy'
+    },
+    {
+        label: 'Thành công',
+        value: 'Thành công'
+    },
+]
+
+module.exports = { productInfoTabs, subcategories, voteOptions, adminSidebar, roles,blockStatus, memberSidebar,statusOrder };

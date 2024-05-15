@@ -82,16 +82,16 @@ const userReducer = (state = initialState, action) => {
         mes: '',
         };
         case UPDATE_CART:
-  const { pid, quantity } = action.payload;
-  const updateItemIndex = state.currentCart.findIndex(el => el.product?._id === pid);
-  if (updateItemIndex !== -1) {
-    const updatedCart = [...state.currentCart]; // Tạo bản sao của currentCart
-    updatedCart[updateItemIndex].quantity = quantity;
-    return {
-      ...state,
-      currentCart: updatedCart,
-      mes: '', // Reset message
-    };
+        const { pid, quantity } = action.payload;
+        const updateItemIndex = state.currentCart.findIndex(el => el.product?._id === pid);
+        if (updateItemIndex !== -1) {
+        const updatedCart = [...state.currentCart]; // Tạo bản sao của currentCart
+        updatedCart[updateItemIndex].quantity = quantity;
+return {
+  ...state,
+  currentCart: updatedCart,
+  mes: '', // Reset message
+};
   } else {
     return {
       ...state,

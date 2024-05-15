@@ -39,7 +39,7 @@ const handleClickOption = async(e, flag) => {
         })
       })
         // console.log(productData);
-        const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1})
+        const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1, title: productData?.title})
         // console.log(productData.subcategory);
         if (response.success) {
           toast?.success(response?.mes)

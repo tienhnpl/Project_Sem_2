@@ -36,6 +36,10 @@ const DetailProduct = () => {
   const [relatedProducts, setRelatedProducts] = useState(null);
   const [update, setUpdate] = useState(false);
   let newPrice = product?.price - (product?.price / 100) * product?.discount;
+  // const [currentProduct, setCurrentProduct] = useState({
+  //   title: '',
+
+  // })
 
   const fetchProductData = async () => {
     // try {
@@ -106,7 +110,7 @@ const handdleAdddToCart = async () => {
     })
   })
     // console.log(productData);
-    const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity})
+    const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity, title: product?.title})
     // console.log(productData.subcategory);
     if (response.success) {
       toast?.success(response?.mes)
@@ -137,7 +141,7 @@ const handleBuyNow = async () => {
     });
   } else {
     // Nếu đã đăng nhập, thực hiện các bước để thêm sản phẩm vào giỏ hàng và chuyển hướng đến trang thanh toán
-    const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity });
+    const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity, title: product?.title });
     if (response.success) {
       // Nếu thêm vào giỏ hàng thành công, hiển thị thông báo và cập nhật thông tin người dùng
       dispatch(getCurrent());
