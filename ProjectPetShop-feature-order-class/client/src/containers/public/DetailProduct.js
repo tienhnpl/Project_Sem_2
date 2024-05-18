@@ -146,7 +146,7 @@ const handleBuyNow = async () => {
       // Nếu thêm vào giỏ hàng thành công, hiển thị thông báo và cập nhật thông tin người dùng
       dispatch(getCurrent());
       // Chuyển hướng đến trang thanh toán
-      navigate(`/${path.DETAIL_CART}`);
+      navigate(`/${path.MEMBER}/${path.DETAIL_CART}`);
     } else {
       // Nếu có lỗi xảy ra khi thêm vào giỏ hàng, hiển thị thông báo lỗi
       toast?.error(response?.mes);
