@@ -35,4 +35,5 @@ export { default as MemberSidebar } from "./Sidebar/MemberSidebar";
 export { default as DogProduct } from "./Products/DogProduct";
 export { default as Cart } from "./Products/Cart";
 export { default as OrderItem } from "./Products/OrderItem";
+export { default as Blog1 } from "./Blogs/Blog1";
 
