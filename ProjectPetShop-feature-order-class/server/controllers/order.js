@@ -2,22 +2,71 @@ const Order = require('../models/order')
 const {User} = require('../models/user')
 const Coupon = require('../models/coupon')
 const asyncHandler = require('express-async-handler')
+const Product = require('../models/product'); 
 
-const createOrder = asyncHandler(async(req, res) => {
-    const {_id} = req.user
-    const {products, total, address, status} = req.body
-    if (address) {
-        await User.findByIdAndUpdate({ _id }, { address, cart: [] })
 
+// const createOrder = asyncHandler(async(req, res) => {
+//     const {_id} = req.user
+//     const {products, total, address, status} = req.body
+//     if (address) {
+//         await User.findByIdAndUpdate({ _id }, { address, cart: [] })
+
+//     }
+//     const data = {products, total,orderBy: _id}
+//     if (status) data.status = status
+//     const rs = await Order.create(data)
+//     return res.json({
+//         success: rs ? true : false,
+//         rs: rs ? rs : 'Something went wrong',
+//     })
+// })
+const createOrder = asyncHandler(async (req, res) => {
+    const { products, address, status } = req.body;
+    const { _id: userId } = req.user;
+
+    if (!products || products.length === 0) {
+        return res.status(400).json({ success: false, mes: 'No order items provided' });
     }
-    const data = {products, total,orderBy: _id}
-    if (status) data.status = status
-    const rs = await Order.create(data)
-    return res.json({
-        success: rs ? true : false,
-        rs: rs ? rs : 'Something went wrong',
-    })
-})
+
+    // Tạo đơn hàng mới
+    const order = new Order({
+        orderBy: userId,
+        status: status || 'Đã hủy',
+        products: products.map(item => ({
+            product: item.product._id,
+            quantity: item.quantity,
+            title: item.product.title,
+            subcategory: item.product.subcategory,
+        })),
+    });
+
+    await order.save();
+
+    // Cập nhật địa chỉ của người dùng nếu được cung cấp
+    if (address) {
+        await User.findByIdAndUpdate(userId, { address, cart: [] });
+    }
+
+    // Giảm số lượng sản phẩm trong kho và tăng trường sold
+    for (const item of products) {
+        const product = await Product.findById(item.product._id);
+        if (!product) {
+            return res.status(404).json({ success: false, mes: `Product not found for ID: ${item.product._id}` });
+        }
+        if (product.quantity < item.quantity) {
+            return res.status(400).json({ success: false, mes: `Not enough quantity for product ${product.title}` });
+        }
+        product.quantity -= item.quantity;
+        product.sold += item.quantity; // Tăng trường sold
+        await product.save();
+    }
+
+    res.status(201).json({ success: true, order });
+});
+
+
+
+
 
 
 const updateStatusOrder = asyncHandler(async(req, res) => {

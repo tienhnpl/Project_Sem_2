@@ -21,33 +21,60 @@ const {current} = useSelector(state => state.user)
 const navigate = useNavigate()
 const dispatch = useDispatch()
 const location = useLocation()
-const handleClickOption = async(e, flag) => {
-  e.stopPropagation()
-  if (flag === 'SHOPING') {
-      if (!current) return Swal.fire({
-        title: 'Chưa đăng nhập',
-        text: 'Hãy đăng nhập để mua hàng',
-        icon: 'info',
-        cancelButtonText: 'Trở lại',
-        showCancelButton: true,
-        confirmButtonText: 'Đi tới trang đăng nhập'
+// const handleClickOption = async(e, flag) => {
+//   e.stopPropagation()
+//   if (flag === 'SHOPING') {
+//       if (!current) return Swal.fire({
+//         title: 'Chưa đăng nhập',
+//         text: 'Hãy đăng nhập để mua hàng',
+//         icon: 'info',
+//         cancelButtonText: 'Trở lại',
+//         showCancelButton: true,
+//         confirmButtonText: 'Đi tới trang đăng nhập'
     
-      }).then((rs) => {
-        if (rs.isConfirmed) navigate({
-            pathname: `/${path.LOGIN}`,
-            search: createSearchParams({redirect: location.pathname}).toString()
-        })
+//       }).then((rs) => {
+//         if (rs.isConfirmed) navigate({
+//             pathname: `/${path.LOGIN}`,
+//             search: createSearchParams({redirect: location.pathname}).toString()
+//         })
+//       })
+//         // console.log(productData);
+//         const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1, title: productData?.title, sold: productData?.sold})
+//         if (response.success) {
+//           console.log(response);
+//           toast?.success(response?.mes)
+//           dispatch(getCurrent());
+//         }
+//           else toast?.error(response?.mes)
+//     }
+// }
+
+const handleClickOption = async(e, flag) => {
+  e.stopPropagation();
+  if (flag === 'SHOPING') {
+    if (!current) return Swal.fire({
+      title: 'Chưa đăng nhập',
+      text: 'Hãy đăng nhập để mua hàng',
+      icon: 'info',
+      cancelButtonText: 'Trở lại',
+      showCancelButton: true,
+      confirmButtonText: 'Đi tới trang đăng nhập'
+    }).then((rs) => {
+      if (rs.isConfirmed) navigate({
+        pathname: `/${path.LOGIN}`,
+        search: createSearchParams({redirect: location.pathname}).toString()
       })
-        // console.log(productData);
-        const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1, title: productData?.title})
-        // console.log(productData.subcategory);
-        if (response.success) {
-          toast?.success(response?.mes)
-          dispatch(getCurrent());
-        }
-          else toast?.error(response?.mes)
+    });
+    const response = await apiUpdateCart({pid: productData?._id, subcategory: productData?.subcategory, quantity:1, title: productData?.title})
+    if (response.success) {
+      toast?.success(response?.mes)
+      dispatch(getCurrent());
+    } else {
+      toast?.error(response?.mes)
     }
+  }
 }
+
 
 // image={el.thumb}
       // title={el.title}

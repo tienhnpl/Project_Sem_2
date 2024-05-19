@@ -94,6 +94,31 @@ const handleClickImage = (e,el) => {
   setCurrentImage(el)
 }
 
+// const handdleAdddToCart = async () => {
+//   if (!current) return Swal.fire({
+//     title: 'Chưa đăng nhập',
+//     text: 'Hãy đăng nhập để mua hàng',
+//     icon: 'info',
+//     cancelButtonText: 'Trở lại',
+//     showCancelButton: true,
+//     confirmButtonText: 'Đi tới trang đăng nhập'
+
+//   }).then((rs) => {
+//     if (rs.isConfirmed) navigate({
+//         pathname: `/${path.LOGIN}`,
+//         search: createSearchParams({redirect: location.pathname}).toString()
+//     })
+//   })
+//     // console.log(productData);
+//     const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity, title: product?.title, sold: product?.sold})
+//     // console.log(productData.subcategory);
+//     if (response.success) {
+//       toast?.success(response?.mes)
+//       dispatch(getCurrent());
+//     }
+//       else toast?.error(response?.mes)
+// }
+
 const handdleAdddToCart = async () => {
   if (!current) return Swal.fire({
     title: 'Chưa đăng nhập',
@@ -102,27 +127,59 @@ const handdleAdddToCart = async () => {
     cancelButtonText: 'Trở lại',
     showCancelButton: true,
     confirmButtonText: 'Đi tới trang đăng nhập'
-
   }).then((rs) => {
     if (rs.isConfirmed) navigate({
-        pathname: `/${path.LOGIN}`,
-        search: createSearchParams({redirect: location.pathname}).toString()
+      pathname: `/${path.LOGIN}`,
+      search: createSearchParams({redirect: location.pathname}).toString()
     })
   })
-    // console.log(productData);
-    const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity, title: product?.title})
-    // console.log(productData.subcategory);
-    if (response.success) {
-      toast?.success(response?.mes)
-      dispatch(getCurrent());
-    }
-      else toast?.error(response?.mes)
+  const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity, title: product?.title})
+  if (response.success) {
+    toast?.success(response?.mes)
+    dispatch(getCurrent());
+  } else {
+    toast?.error(response?.mes)
+  }
 }
 
+// const handleBuyNow = async () => {
+//   // Kiểm tra xem người dùng đã đăng nhập chưa
+//   if (!current) {
+//     // Nếu chưa đăng nhập, hiển thị thông báo yêu cầu đăng nhập
+//     return Swal.fire({
+//       title: 'Chưa đăng nhập',
+//       text: 'Hãy đăng nhập để mua hàng',
+//       icon: 'info',
+//       cancelButtonText: 'Trở lại',
+//       showCancelButton: true,
+//       confirmButtonText: 'Đi tới trang đăng nhập'
+//     }).then((rs) => {
+//       if (rs.isConfirmed) {
+//         // Nếu người dùng xác nhận, chuyển hướng đến trang đăng nhập và lưu lại đường dẫn trang hiện tại
+//         navigate({
+//           pathname: `/${path.LOGIN}`,
+//           search: createSearchParams({ redirect: location.pathname }).toString()
+//         })
+//       }
+//     });
+//   } else {
+//     // Nếu đã đăng nhập, thực hiện các bước để thêm sản phẩm vào giỏ hàng và chuyển hướng đến trang thanh toán
+//     const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity, title: product?.title, sold: product?.sold });
+//     if (response.success) {
+//       console.log(response);
+//       // Nếu thêm vào giỏ hàng thành công, hiển thị thông báo và cập nhật thông tin người dùng
+//       dispatch(getCurrent());
+//       // Chuyển hướng đến trang thanh toán
+//       navigate(`/${path.MEMBER}/${path.DETAIL_CART}`);
+//     } else {
+//       // Nếu có lỗi xảy ra khi thêm vào giỏ hàng, hiển thị thông báo lỗi
+//       toast?.error(response?.mes);
+//     }
+//   }
+// };
+
 const handleBuyNow = async () => {
-  // Kiểm tra xem người dùng đã đăng nhập chưa
   if (!current) {
-    // Nếu chưa đăng nhập, hiển thị thông báo yêu cầu đăng nhập
     return Swal.fire({
       title: 'Chưa đăng nhập',
       text: 'Hãy đăng nhập để mua hàng',
@@ -132,7 +189,6 @@ const handleBuyNow = async () => {
       confirmButtonText: 'Đi tới trang đăng nhập'
     }).then((rs) => {
       if (rs.isConfirmed) {
-        // Nếu người dùng xác nhận, chuyển hướng đến trang đăng nhập và lưu lại đường dẫn trang hiện tại
         navigate({
           pathname: `/${path.LOGIN}`,
           search: createSearchParams({ redirect: location.pathname }).toString()
@@ -140,15 +196,11 @@ const handleBuyNow = async () => {
       }
     });
   } else {
-    // Nếu đã đăng nhập, thực hiện các bước để thêm sản phẩm vào giỏ hàng và chuyển hướng đến trang thanh toán
     const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity, title: product?.title });
     if (response.success) {
-      // Nếu thêm vào giỏ hàng thành công, hiển thị thông báo và cập nhật thông tin người dùng
       dispatch(getCurrent());
-      // Chuyển hướng đến trang thanh toán
       navigate(`/${path.MEMBER}/${path.DETAIL_CART}`);
     } else {
-      // Nếu có lỗi xảy ra khi thêm vào giỏ hàng, hiển thị thông báo lỗi
       toast?.error(response?.mes);
     }
   }

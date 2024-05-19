@@ -99,20 +99,23 @@ const Dashboard = () => {
       </div>
       <div className='pl-6'>
       <h1 className='text-3xl font-bold tracking-tight mb-[30px]'>Danh sách sản phẩm sắp hết hàng</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>Số thứ tự</th>
-              <th>Tên sản phẩm</th>
-              <th>Số lượng hàng thực tế</th>
-            </tr>
+        <table className='table-auto w-full'>
+        <thead>
+          <tr className='border bg-white w-full border=white'>
+            <th className='text-center py-2'>STT</th>
+            <th className='text-center py-2'>Sản phẩm</th>
+            <th className='text-center py-2'>Số lượng hàng thực tế</th>
+            <th className='text-center py-2'>Số lượng đã bán</th>
+          </tr>
           </thead>
           <tbody>
             {filterAndSortLowInventoryProducts()?.map((product, index) => (
               <tr key={product.id}>
-                <td ><span>{index + 1}</span></td>
-                <td ><span>{product.title}</span></td>
+                <td className='text-center py-2' ><span>{index + 1}</span></td>
+                <td className='text-center py-2'><span>{product.title}</span></td>
                 <td className='flex items-center justify-center text-red-500'><span>{product.quantity}</span></td>
+                <td className='text-center py-2'><span>{product.sold}</span></td>
+
               </tr>
             ))}
           </tbody>

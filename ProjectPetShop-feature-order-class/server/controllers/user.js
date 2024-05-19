@@ -371,7 +371,7 @@ const updateCart = asyncHandler(async (req, res) => {
         } else {
             response = await User.findByIdAndUpdate(
                 _id,
-                { $push: { cart: { product: pid, quantity, subcategory, title } } },
+                { $push: { cart: { product: pid, quantity, subcategory, title} } },
                 { new: true }
             );
         }
