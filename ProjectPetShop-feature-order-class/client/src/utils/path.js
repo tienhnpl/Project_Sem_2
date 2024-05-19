@@ -7,7 +7,7 @@ const path = {
   PROMOTION: "promotion",
   PRODUCTS: ":category",
   STAR: "*",
-  BLOGS: 'blog',
+  BLOG1: 'blog1',
   DETAIL_PRODUCT__CATEGORY__PID__TITLLE: ':category/:subcategories/:pid/:title',
   FINAL_REGISTER: 'finalregister/:status',
   RESET_PASSWORD: 'reset-password/:token',

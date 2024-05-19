@@ -37,7 +37,7 @@ import { useEffect } from "react";
 import {getCategories} from './store/actions/asyncActions'
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { Cart, Modal } from "./components";
+import { Blog1, Cart, Modal } from "./components";
 import { showCart } from "store/reducers/appSlice";
 
 
@@ -65,7 +65,7 @@ function App() {
           <Route path={path.PUBLIC} element={<Public />}>
             <Route path={path.HOME} element={<Home />} />
             <Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLLE} element={<DetailProduct/>} />
-            <Route path={path.BLOGS} element={<Blog/>} />
+            <Route path={path.BLOG1} element={<Blog1/>} />
             <Route path={path.DOG} element={<DogProduct />} />
             <Route path={path.CAT} element={<CatProduct />} />
             <Route path={path.PROMOTION} element={<Promotion />} />
