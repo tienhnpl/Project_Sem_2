@@ -16,12 +16,19 @@ const ManageOrder = () => {
   };
 
   const fetchOrders = async (params) => {
-    const response = await apiGetOrders({ ...params, limit: process.env?.REACT_APP_PRODUCT_LIMIT })
-    if (response.success) {
-      setOrders(response.orders)
-      setCounts(response.counts)
+    try {
+      const response = await apiGetOrders({ ...params, limit: process.env?.REACT_APP_PRODUCT_LIMIT })
+      if (response.success) {
+        setOrders(response.orders)
+        setCounts(response.counts)
+      } else {
+        console.error('Failed to fetch orders', response)
+      }
+    } catch (error) {
+      console.error('Error fetching orders', error)
     }
   }
+  
 
   useEffect(() => {
     const pr = Object.fromEntries([...params])
