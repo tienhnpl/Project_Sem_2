@@ -21,7 +21,7 @@ const Product = require('../models/product');
 //     })
 // })
 const createOrder = asyncHandler(async (req, res) => {
-    const { products, address, status } = req.body;
+    const { products, total, address, status } = req.body;
     const { _id: userId } = req.user;
 
     if (!products || products.length === 0) {
@@ -32,6 +32,7 @@ const createOrder = asyncHandler(async (req, res) => {
     const order = new Order({
         orderBy: userId,
         status: status || 'Đã hủy',
+        total, // Thêm trường total
         products: products.map(item => ({
             product: item.product._id,
             quantity: item.quantity,
@@ -63,6 +64,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
     res.status(201).json({ success: true, order });
 });
+
 
 
 
