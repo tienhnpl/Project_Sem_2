@@ -152,9 +152,80 @@ const getUserOrders = asyncHandler(async(req, res) => {
         orders: response ? response : 'Cannot get products',
     });
 })
-const getOders = asyncHandler(async(req, res) => {
-    const queries = {...req.query}
-    //Tách các trường đặc biệt ra khỏi query
+// const getOders = asyncHandler(async(req, res) => {
+//     const queries = {...req.query}
+//     //Tách các trường đặc biệt ra khỏi query
+//     const excludeFields = ['limit', 'sort', 'page', 'fields']
+//     excludeFields.forEach(el => delete queries[el])
+
+//     // Format lại các operators cho đúng cú pháp của mongoose
+//     let queryString = JSON.stringify(queries)
+//     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
+//     const formatedQueries = JSON.parse(queryString)
+//     // let subcategoriesQueryObject = {}
+    
+
+//     // //Filtering
+//     // if (queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'}
+//     // if (queries?.category) formatedQueries.category = {$regex: queries.category, $options: 'i'}
+//     // if (queries?.subcategories){
+//     //     delete formatedQueries.subcategories
+//     //     const subcategoriesArr = queries.subcategories?.split(',')
+//     //     const subcategoriesQuery = subcategoriesArr.map(el => ({subcategories: { $regex: el, $options: 'i'}})) 
+//     //     subcategoriesQueryObject = { $or: subcategoriesQuery}
+//     // }
+//     // let queryObject = {}
+//     // if (queries?.q) {
+//     //     delete formatedQueries.q
+//     //     queryObject = { 
+//     //         $or: [
+//     //         {subcategories: { $regex: queries.q, $options: 'i'}},
+//     //         {title: { $regex: queries.q, $options: 'i'}},
+//     //         {category: { $regex: queries.q, $options: 'i'}},
+//     //         {subcategory: { $regex: queries.q, $options: 'i'}}
+//     //     ]}
+//     // }
+//     const qr = {...formatedQueries}
+//     let queryCommand = Order.find(qr)
+
+//     // Sorting
+//     if (req.query.sort) {
+//         const sortBy = req.query.sort.split(',').join(' ')
+//         queryCommand = queryCommand.sort(sortBy)
+//     }
+
+//     // Fields limiting
+//     if (req.query.fields) {
+//         const fields = req.query.fields.split(',').join(' ')
+//         queryCommand = queryCommand.select(fields)
+//     }
+//     // Pagination
+//     // limit: số object lấy về 1 lần gọi API
+//     //skip: 2
+//     // 1 2 3 ... 10
+//     //+2 => 2
+//     //+aìdszd => NaN
+//     const page = +req.query.page || 1
+//     const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+//     const skip = (page -1) * limit
+//     queryCommand.skip(skip).limit(limit)
+//     // Thực thi query
+//     const response = await queryCommand;
+
+    
+//     // Execute query
+//     // Số lượng sản phẩm thỏa mản điều kiện !== số lượng sản phẩm trả về 1 lần gọi API
+//     const counts = await Order.find(qr).countDocuments()
+//     return res.status(200).json({
+//         success: response ? true : false,
+//         counts,
+//         orders: response ? response : 'Cannot get products',
+//     });
+// })
+
+const getOrders = asyncHandler(async (req, res) => {
+    const queries = { ...req.query }
+    // Tách các trường đặc biệt ra khỏi query
     const excludeFields = ['limit', 'sort', 'page', 'fields']
     excludeFields.forEach(el => delete queries[el])
 
@@ -162,59 +233,33 @@ const getOders = asyncHandler(async(req, res) => {
     let queryString = JSON.stringify(queries)
     queryString = queryString.replace(/\b(gte|gt|lt|lte)\b/g, matchedEl => `$${matchedEl}`)
     const formatedQueries = JSON.parse(queryString)
-    // let subcategoriesQueryObject = {}
     
+    const qr = { ...formatedQueries }
+    // Sử dụng populate để lấy thêm thông tin từ model User
+    let queryCommand = Order.find(qr).populate('orderBy', 'email lastname firstname address')
 
-    // //Filtering
-    // if (queries?.title) formatedQueries.title = {$regex: queries.title, $options: 'i'}
-    // if (queries?.category) formatedQueries.category = {$regex: queries.category, $options: 'i'}
-    // if (queries?.subcategories){
-    //     delete formatedQueries.subcategories
-    //     const subcategoriesArr = queries.subcategories?.split(',')
-    //     const subcategoriesQuery = subcategoriesArr.map(el => ({subcategories: { $regex: el, $options: 'i'}})) 
-    //     subcategoriesQueryObject = { $or: subcategoriesQuery}
-    // }
-    // let queryObject = {}
-    // if (queries?.q) {
-    //     delete formatedQueries.q
-    //     queryObject = { 
-    //         $or: [
-    //         {subcategories: { $regex: queries.q, $options: 'i'}},
-    //         {title: { $regex: queries.q, $options: 'i'}},
-    //         {category: { $regex: queries.q, $options: 'i'}},
-    //         {subcategory: { $regex: queries.q, $options: 'i'}}
-    //     ]}
-    // }
-    const qr = {...formatedQueries}
-    let queryCommand = Order.find(qr)
-
-    // Sorting
+    // Sắp xếp
     if (req.query.sort) {
         const sortBy = req.query.sort.split(',').join(' ')
         queryCommand = queryCommand.sort(sortBy)
     }
 
-    // Fields limiting
+    // Giới hạn các trường
     if (req.query.fields) {
         const fields = req.query.fields.split(',').join(' ')
         queryCommand = queryCommand.select(fields)
     }
-    // Pagination
-    // limit: số object lấy về 1 lần gọi API
-    //skip: 2
-    // 1 2 3 ... 10
-    //+2 => 2
-    //+aìdszd => NaN
+
+    // Phân trang
     const page = +req.query.page || 1
     const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
-    const skip = (page -1) * limit
+    const skip = (page - 1) * limit
     queryCommand.skip(skip).limit(limit)
+
     // Thực thi query
     const response = await queryCommand;
 
-    
-    // Execute query
-    // Số lượng sản phẩm thỏa mản điều kiện !== số lượng sản phẩm trả về 1 lần gọi API
+    // Thực hiện query
     const counts = await Order.find(qr).countDocuments()
     return res.status(200).json({
         success: response ? true : false,
@@ -222,9 +267,10 @@ const getOders = asyncHandler(async(req, res) => {
         orders: response ? response : 'Cannot get products',
     });
 })
-module.exports = {
+
+module.exports = { 
     createOrder,
     updateStatusOrder,
     getUserOrders,
-    getOders
+    getOrders
 }
