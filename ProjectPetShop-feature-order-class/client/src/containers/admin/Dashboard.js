@@ -5,6 +5,7 @@ import { getProducts } from 'apis'; // Nhập hàm API để lấy thông tin s�
 const Dashboard = () => {
   const [productsData, setProductsData] = useState(null);
   const [bestSellers, setBestSellers] = useState(null);
+  const [lowqlt, setLowQlt] = useState(20);
   console.log(bestSellers);
   useEffect(() => {
     fetchProducts();
@@ -14,7 +15,6 @@ const Dashboard = () => {
     try {
       const [bestSellersResponse] = await Promise.all([
         getProducts({ sort: '-sold' }),
-        getProducts({ sort: '-createdAt' })
       ]);
       if (bestSellersResponse?.success) {
         const products = bestSellersResponse.products;
@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   const fetchLowProducts = async () => {
     try {
-      const lowQuantityResponse = await getProducts(); // Lấy các sản phẩm có quantity dưới 10
+      const lowQuantityResponse = await getProducts({ limit: 50 }); // Lấy các sản phẩm có quantity dưới 10
   
       if (lowQuantityResponse?.success) {
         const lowQuantityProducts = lowQuantityResponse.products;
@@ -56,8 +56,12 @@ const Dashboard = () => {
     );
   };
 
+  const filter0Products = () => {
+    return productsData?.filter(productsData => productsData.quantity ===0)
+  };
+
   const filterAndSortLowInventoryProducts = () => {
-    return productsData?.filter(productsData => productsData?.quantity < 10)
+    return productsData?.filter(productsData => productsData?.quantity <= lowqlt && productsData.quantity > 0)
                        .sort((a, b) => a.quantity - b.quantity);
   };
 
@@ -97,8 +101,43 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+
+      <div className='pl-6 mb-[70px]'>
+      <h1 className='text-3xl font-bold tracking-tight mb-[30px] text-red-500' >Danh sách sản phẩm hết hàng</h1>
+        <table className='table-auto w-full'>
+        <thead>
+          <tr className='border bg-white w-full border=white'>
+            <th className='text-center py-2'>STT</th>
+            <th className='text-center py-2'>Sản phẩm</th>
+            <th className='text-center py-2'>Số lượng hàng thực tế</th>
+            <th className='text-center py-2'>Số lượng đã bán</th>
+          </tr>
+          </thead>
+          <tbody>
+            {filter0Products()?.map((product, index) => (
+              <tr key={product.id}>
+                <td className='text-center py-2' ><span>{index + 1}</span></td>
+                <td className='text-center py-2'><span>{product.title}</span></td>
+                <td className='flex items-center justify-center text-red-500'><span>{product.quantity}</span></td>
+                <td className='text-center py-2'><span>{product.sold}</span></td>
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
       <div className='pl-6'>
-      <h1 className='text-3xl font-bold tracking-tight mb-[30px]'>Danh sách sản phẩm sắp hết hàng</h1>
+      <label className='text-3xl font-bold tracking-tight mb-[30px]' htmlFor="numberInput">Danh sách sản phẩm sắp hết hàng có số lượng dưới </label>
+        <input 
+          className='w-[80px] text-2xl ml-[10px]'
+          type="number" 
+          id="numberInput" 
+          name="numberInput" 
+          value={lowqlt}
+          onChange={(e) => setLowQlt(parseInt(e.target.value))} // Cập nhật lowqlt khi có thay đổi
+        />
         <table className='table-auto w-full'>
         <thead>
           <tr className='border bg-white w-full border=white'>
