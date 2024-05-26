@@ -98,13 +98,17 @@ const Card = ({ productData }) => {
         setIsShowOption(false)
       }}
     >
+      
+      <div className="h-[300px] w-[300px]">
+          <img
+            src={productData?.thumb}
+            height={300}
+            width={300}
+            className="object-cover rounded-[10px]"
+          />
+      </div>
+
       <div className="w-full relative">
-      <img
-        src={productData?.thumb}
-        height={300}
-        width={300}
-        className="object-cover rounded-[10px]"
-      />
         {isShowOption && (
           <div className="absolute bottom-0 flex left-0 right-0 justify-center animate-slide-top">
             {current?.cart?.some(el => el?.product === productData?._id.toString()) ? (
@@ -118,10 +122,8 @@ const Card = ({ productData }) => {
             )}
           </div>
         )}
-
-
       </div>
-      
+
       <p className="text-[#2E2437] font-medium text-2xl mt-[18px] text-justify h-[96px]">
         {typeof productData?.title === 'string' && productData?.title.length >= 72 ? `${productData?.title.slice(0, 72)}...` : productData?.title}
       </p>

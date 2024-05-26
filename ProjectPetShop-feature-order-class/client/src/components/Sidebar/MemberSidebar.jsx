@@ -25,6 +25,13 @@ const MemberSidebar = () => {
         <small>{`${current.lastname} ${current.firstname}`}</small>
       </div>
       <div>
+      <NavLink 
+                    to={'/'}
+                    className={clsx(notActiveStyle)}
+                    >
+                      <TiArrowForward size={20}/>
+                      Trang chủ
+                    </NavLink>
         {memberSidebar.map(el => (
           <Fragment key={el.id}>
               {el.type === 'SINGLE' && <NavLink 
@@ -59,13 +66,7 @@ const MemberSidebar = () => {
                   
           </Fragment>
         ))}
-        <NavLink 
-                    to={'/'}
-                    className={clsx(notActiveStyle)}
-                    >
-                      <TiArrowForward size={20}/>
-                      Trang chủ
-                    </NavLink>
+        
       </div>
     </div>
   )
