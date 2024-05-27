@@ -119,28 +119,34 @@ const handleClickImage = (e,el) => {
 //       else toast?.error(response?.mes)
 // }
 
-const handdleAdddToCart = async () => {
-  if (!current) return Swal.fire({
-    title: 'Chưa đăng nhập',
-    text: 'Hãy đăng nhập để mua hàng',
-    icon: 'info',
-    cancelButtonText: 'Trở lại',
-    showCancelButton: true,
-    confirmButtonText: 'Đi tới trang đăng nhập'
-  }).then((rs) => {
-    if (rs.isConfirmed) navigate({
-      pathname: `/${path.LOGIN}`,
-      search: createSearchParams({redirect: location.pathname}).toString()
-    })
-  })
-  const response = await apiUpdateCart({pid, subcategory: product?.subcategory, quantity, title: product?.title})
+const handleAddToCart = async () => {
+  if (product?.quantity === 0) {
+    return toast.error('Sản phẩm đã hết hàng');
+  }
+  if (!current) {
+    return Swal.fire({
+      title: 'Chưa đăng nhập',
+      text: 'Hãy đăng nhập để mua hàng',
+      icon: 'info',
+      cancelButtonText: 'Trở lại',
+      showCancelButton: true,
+      confirmButtonText: 'Đi tới trang đăng nhập'
+    }).then((rs) => {
+      if (rs.isConfirmed) navigate({
+        pathname: `/${path.LOGIN}`,
+        search: createSearchParams({ redirect: location.pathname }).toString()
+      });
+    });
+  }
+  const response = await apiUpdateCart({ pid, subcategory: product?.subcategory, quantity, title: product?.title });
   if (response.success) {
-    toast?.success(response?.mes)
+    toast.success(response.mes);
     dispatch(getCurrent());
   } else {
-    toast?.error(response?.mes)
+    toast.error(response.mes);
   }
-}
+};
+
 
 // const handleBuyNow = async () => {
 //   // Kiểm tra xem người dùng đã đăng nhập chưa
@@ -179,6 +185,9 @@ const handdleAdddToCart = async () => {
 // };
 
 const handleBuyNow = async () => {
+  if (product?.quantity === 0) {
+    return toast.error('Sản phẩm đã hết hàng');
+  }
   if (!current) {
     return Swal.fire({
       title: 'Chưa đăng nhập',
@@ -192,7 +201,7 @@ const handleBuyNow = async () => {
         navigate({
           pathname: `/${path.LOGIN}`,
           search: createSearchParams({ redirect: location.pathname }).toString()
-        })
+        });
       }
     });
   } else {
@@ -201,7 +210,7 @@ const handleBuyNow = async () => {
       dispatch(getCurrent());
       navigate(`/${path.MEMBER}/${path.DETAIL_CART}`);
     } else {
-      toast?.error(response?.mes);
+      toast.error(response.mes);
     }
   }
 };
@@ -270,10 +279,10 @@ const handleBuyNow = async () => {
             handleQuantity={handleQuantity}
             handleChangeQuantity={handleChangeQuantity}
             />
-            <span className='text-sm text-[#DF0000] italic'>{`(Tồn kho: ${product?.quantity} sản phẩm)`}</span>
+            <span className='text-sm text-[#DF0000] italic'>{product?.quantity === 0 ? '(Hết hàng)' : `(Tồn kho: ${product?.quantity} sản phẩm)`}</span>
 
             </div>
-            <Button fw handdleOnClick={handdleAdddToCart}>
+            <Button fw handdleOnClick={handleAddToCart}>
               Thêm vào giỏ hàng
             </Button>
 
