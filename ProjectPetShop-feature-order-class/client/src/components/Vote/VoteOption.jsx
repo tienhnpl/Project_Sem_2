@@ -20,7 +20,7 @@ const VoteOption = ({nameProduct, handleSubmitVoteOption}) => {
 
 
     return (
-        <div onClick={e => e.stopPropagation()} ref={modalRel} className='bg-white w-[700px] p-4 gap-4 flex-col flex items-center justify-center'>
+        <div onClick={e => e.stopPropagation()} ref={modalRel} className='bg-white w-[700px] p-4 gap-4 flex-col flex items-center justify-center z-50' style={{ zIndex: 1000 }}>
             <img src={logo} alt="logo" className='w-[300px] my-8 object-contain' />
             <h2 className='text-center text-medium text-lg'>{`Đánh giá sản phẩm ${nameProduct}`}</h2>
             <textarea

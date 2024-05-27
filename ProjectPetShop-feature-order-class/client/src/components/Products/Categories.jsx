@@ -42,7 +42,7 @@ const Categories = () => {
               ))}
             </div>
 
-            <div className="text-[14px] font-bold mt-[15px]"> 
+            {/* <div className="text-[14px] font-bold mt-[15px]"> 
             {categories && categories.find(el => el._id ===  '662609855f08defa28ecdf77') && (
             <Link
               key={(categories.find(el => el._id === '662609855f08defa28ecdf77').title)}
@@ -51,7 +51,7 @@ const Categories = () => {
             {categories.find(el => el._id === '662609855f08defa28ecdf77').title.toUpperCase()}
             </Link>
                 )}
-            </div>
+            </div> */}
           </div>
 
             
@@ -73,7 +73,7 @@ const Categories = () => {
                 </span>
               ))}
             </div>
-            <span className="text-[14px] font-bold mt-[15px]">
+            {/* <span className="text-[14px] font-bold mt-[15px]">
             {categories && categories.find(el => el._id ===  '662609935f08defa28ecdf79') && (
             <Link
               key={(categories.find(el => el._id === '662609935f08defa28ecdf79').title)}
@@ -82,7 +82,7 @@ const Categories = () => {
             {categories.find(el => el._id === '662609935f08defa28ecdf79').title.toUpperCase()}
             </Link>
                 )}
-            </span>
+            </span> */}
           </div>
 
           <div className="w-[172px] flex flex-col">
@@ -127,7 +127,7 @@ const Categories = () => {
         </div>
 
         <div className="bg-inCategory w-[275px] bg-center bg-cover relative px-[25px] ">
-          <div className="absolute top-40 flex flex-col gap-[15px]">
+          {/* <div className="absolute top-40 flex flex-col gap-[15px]">
             <span className="w-[73px] h-[25px] bg-[#FF4F52] text-xs font-semibold text-white rounded flex items-center justify-center">
               <Link to={path.PROMOTION}>Khuyến mãi</Link>
             </span>
@@ -135,7 +135,7 @@ const Categories = () => {
               Các sản phẩm thức ăn
             </span>
             <span className="text-white text-[14px]">108 sản phẩm</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

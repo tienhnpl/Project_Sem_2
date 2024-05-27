@@ -137,6 +137,7 @@ const Dashboard = () => {
           name="numberInput" 
           value={lowqlt}
           onChange={(e) => setLowQlt(parseInt(e.target.value))} // Cập nhật lowqlt khi có thay đổi
+          min = {1}
         />
         <table className='table-auto w-full'>
         <thead>

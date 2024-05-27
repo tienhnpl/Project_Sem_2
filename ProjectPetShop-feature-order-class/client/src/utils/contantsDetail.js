@@ -11,10 +11,10 @@ const productInfoTabs = [
         sẽ đem đến những bữa ăn ngon miệng, giàu chất dinh dưỡng cho các bé cún.`
     },
        
-    {
-        id: 3,
-        name: 'THANH TOÁN & GIAO HÀNG'
-    }
+    // {
+    //     id: 3,
+    //     name: 'THANH TOÁN & GIAO HÀNG'
+    // }
 ];
 
 const subcategories = [

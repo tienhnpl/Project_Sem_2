@@ -43,10 +43,7 @@ const ManageOrder = () => {
       <div className='flex justify-end items-center px-4'>
         <form className='w-[45%] grid grid-cols-2 gap-4'>
           <div className='col-span-1 flex items-center'>
-            <CustomSelect
-              // Pass appropriate options and handlers for status selection
-              // Example: options={statusOrder}, value={status}, onChange={handleSearchStatus}
-            />
+           
           </div>
         </form>
       </div>

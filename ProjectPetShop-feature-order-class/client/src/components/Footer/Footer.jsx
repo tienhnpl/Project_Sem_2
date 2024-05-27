@@ -61,10 +61,10 @@ const Footer = () => {
           <p className="font-extrabold text-[18px]">Hệ thống shop thú cưng</p>
           <div className="flex flex-col gap-[15px]">
             <span className="text-[16px] ">
-              Khu phố 6, P.Linh Trung Tp.Thủ Đức, Tp.Hồ Chí Minh.
+            CS1:   1 Tôn Thất Thuyết, Mỹ Đình, Nam Từ Liêm, Hà Nội
             </span>
             <span className="text-[16px] ">
-              81-95 Nghi Tàm, P. Yên Phụ Q. Tây Hồ, Tp Hà Nội.
+             CS2:   8 Tôn Thất Thuyết, Mỹ Đình, Nam Từ Liêm, Hà Nội
             </span>
           </div>
           <div></div>
