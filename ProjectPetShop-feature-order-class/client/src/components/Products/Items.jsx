@@ -8,27 +8,23 @@ import { Link, useNavigate } from "react-router-dom";
 const Items = ({productData}) => {
   const [bestSellers, setBestSellers] = useState(null)
   const [newProduct, setNewProduct] = useState(null)
+  const [discountProducts, setDiscountProducts] = useState([]);
   const navigate = useNavigate()
   const fetchProducts = async () => {
-    const response = await Promise.all([getProducts({sort: '-sold'}), getProducts({sort: '-createdAt'})])
-    if (response[0]?.success) setBestSellers(response[0].products)
-    if (response[1]?.success) setNewProduct(response[1].products)
-  }
-
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(actions.getProducts());
-  // }, []);
-  // const { products } = useSelector((state) => state.app);
-
-
-  // Render your component with products data
-
+    const response = await Promise.all([
+      getProducts({ sort: '-sold' }),
+      getProducts({ sort: '-createdAt' }),
+      getProducts({ sort: '-discount' }) // Lấy sản phẩm có discount lớn hơn 0
+    ]);
+    if (response[0]?.success) setBestSellers(response[0].products);
+    if (response[1]?.success) setNewProduct(response[1].products);
+    if (response[2]?.success) setDiscountProducts(response[2].products);
+  };
   
-
   useEffect(() => {
-    fetchProducts()
-  },[])
+    fetchProducts();
+  }, []);
+  
 
   return (
     <div>

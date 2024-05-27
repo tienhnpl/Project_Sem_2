@@ -7,8 +7,16 @@ import intro5 from "assets/imgs/intro-5.png";
 import introCat from "assets/imgs/intro-cat.png";
 import introDog from "assets/imgs/intro-dog.png";
 import path from "utils/path";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Introduce = () => {
+  const navigate = useNavigate();
+  const handleNavigateDog = () => {
+    navigate('/Ch%C3%B3%20c%E1%BA%A3nh?page=1');
+  };
+
+  const handleNavigateCat = () => {
+    navigate('/M%C3%A8o%20c%E1%BA%A3nh?page=1');
+  };
   return (
     <>
       <div className="mb-[45px]">
@@ -77,24 +85,24 @@ const Introduce = () => {
           </div>
         </div>
         <div className="flex justify-between mx-3">
-          <Link to={path.DOG}>
-            <img
-              src={introDog}
-              width={720}
-              height={258}
-              alt="dog"
-              className="shadowItem"
-            />
-          </Link>
-          <Link to={path.CAT}>
-            <img
-              src={introCat}
-              width={720}
-              height={258}
-              alt="Cat"
-              className="shadowItem"
-            />
-          </Link>
+        <div onClick={handleNavigateDog}>
+        <img
+          src={introDog}
+          width={720}
+          height={258}
+          alt="Dog"
+          className="shadowItem"
+        />
+      </div>
+      <div onClick={handleNavigateCat}>
+        <img
+          src={introCat}
+          width={720}
+          height={258}
+          alt="Cat"
+          className="shadowItem"
+        />
+      </div>
         </div>
       </div>
     </>
