@@ -52,8 +52,8 @@ const Card = ({ productData }) => {
   const handleClickOption = async (e, flag) => {
     e.stopPropagation();
     if (productData?.quantity === 0) {
-      return toast.error('Sản phẩm đã hết hàng');
-    }
+    return toast.error('Sản phẩm đã hết hàng');
+  }
     if (flag === 'SHOPING') {
       if (!current) return Swal.fire({
         title: 'Chưa đăng nhập',
