@@ -171,17 +171,19 @@ const dispatch = useDispatch()
             />
             </div>
           
-          <Button
-          name='Xác nhận'
-          handdleOnClick={handleForgotPassword}
-          fw
-          /> 
-          <Button
-          name='Trở lại'
-          handdleOnClick={() => setisForgotPassword(false)}
-          style='bg-bg-custom text-black py-3 mb-4 font-semibold rounded-lg w-full'
-          fw
-          />       
+            <Button
+  handdleOnClick={handleForgotPassword}
+  style='h-[40px] bg-black rounded-lg text-white w-full'
+>
+  Xác nhận
+</Button>
+<Button
+  handdleOnClick={() => setisForgotPassword(false)}
+  style='bg-bg-custom h-[40px] text-black mt-4 font-semibold rounded-lg w-full'
+>
+  Trở lại
+</Button>
+
         </div>
       </div>
         </div>}
