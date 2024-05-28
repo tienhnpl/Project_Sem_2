@@ -36,9 +36,9 @@ const Items = ({productData}) => {
           <p className="text-[#2E2437] font-bold text-[40px]">
             Sản phẩm bán chạy
           </p>
-          <span className="font-semibold text-[20px] text-[#000000]">
+          {/* <span className="font-semibold text-[20px] text-[#000000]">
             Xem tất cả
-          </span>
+          </span> */}
         </div>
       </div>
   
@@ -77,9 +77,9 @@ const Items = ({productData}) => {
           <p className="text-[#2E2437] font-bold text-[40px]">
             Sản phẩm mới
           </p>
-          <span className="font-semibold text-[20px] text-[#000000]">
+          {/* <span className="font-semibold text-[20px] text-[#000000]">
             Xem tất cả
-          </span>
+          </span> */}
         </div>
       </div>
 

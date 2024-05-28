@@ -92,7 +92,7 @@ const Dashboard = () => {
           </PieChart>
         </ResponsiveContainer>
         <div style={{ marginLeft: '20px', marginTop:'70px' }}>
-          <h4>Chú thích</h4>
+          <h4>Chú thích (Các sản phẩm bán chạy)</h4>
           {bestSellers?.map((entry, index) => (
             <div key={`legend-${index}`} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
               <div style={{ width: '20px', height: '20px', backgroundColor: COLORS[index % COLORS.length], marginRight: '10px' }}></div>
@@ -110,7 +110,7 @@ const Dashboard = () => {
           <tr className='border bg-white w-full border=white'>
             <th className='text-center py-2'>STT</th>
             <th className='text-center py-2'>Sản phẩm</th>
-            <th className='text-center py-2'>Số lượng hàng thực tế</th>
+            <th className='text-center py-2'>Số lượng hàng tồn</th>
             <th className='text-center py-2'>Số lượng đã bán</th>
           </tr>
           </thead>
@@ -144,7 +144,7 @@ const Dashboard = () => {
           <tr className='border bg-white w-full border=white'>
             <th className='text-center py-2'>STT</th>
             <th className='text-center py-2'>Sản phẩm</th>
-            <th className='text-center py-2'>Số lượng hàng thực tế</th>
+            <th className='text-center py-2'>Số lượng hàng tồn</th>
             <th className='text-center py-2'>Số lượng đã bán</th>
           </tr>
           </thead>

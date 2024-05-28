@@ -24,7 +24,7 @@ const Categories = () => {
       <div className="absolute z-20 top-[110%] left-[10%] flex p-[35px] rounded-lg bg-white gap-8 before:left-[168px] before:absolute before:border-y-[20px] before:border-x-[20px] before:border-solid before:border-t-transparent before:border-b-white before:border-x-transparent before:top-[-30px]">
         <div className="flex gap-3">
           <div className="w-[172px] flex flex-col">
-            <div className="text-[14px] font-bold mb-[15px]"> 
+            <div className="text-[14px] font-bold mb-[15px] hover:bg-pink-400"> 
             {categories && categories.find(el => el._id === '662609055f08defa28ecdf71') && (
             <Link
               key={(categories.find(el => el._id === '662609055f08defa28ecdf71').title)}
@@ -56,7 +56,7 @@ const Categories = () => {
 
             
           <div className="w-[172px] flex flex-col">
-            <div className="text-[14px] font-bold mb-[15px]">
+            <div className="text-[14px] font-bold mb-[15px] hover:bg-pink-400">
             {categories && categories.find(el => el._id ===  '662608e25f08defa28ecdf6f') && (
             <Link
               key={(categories.find(el => el._id === '662608e25f08defa28ecdf6f').title)}
@@ -86,7 +86,7 @@ const Categories = () => {
           </div>
 
           <div className="w-[172px] flex flex-col">
-            <Link to={`${path.DOG}`} className="text-[14px] font-bold mb-[15px]">
+            <Link to={`${path.DOG}`} className="text-[14px] font-bold mb-[15px] hover:bg-pink-400">
             {categories && categories.find(el => el._id ===  '662609435f08defa28ecdf73') && (
             <Link
               key={(categories.find(el => el._id === '662609435f08defa28ecdf73').title)}
@@ -106,7 +106,7 @@ const Categories = () => {
           </div>
 
           <div className="w-[172px] flex flex-col">
-            <Link to={`${path.CAT}`} className="text-[14px] font-bold mb-[15px]">
+            <Link to={`${path.CAT}`} className="text-[14px] font-bold mb-[15px] hover:bg-pink-400">
             {categories && categories.find(el => el._id ===  '662609515f08defa28ecdf75') && (
             <Link
               key={(categories.find(el => el._id === '662609515f08defa28ecdf75').title)}

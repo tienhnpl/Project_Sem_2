@@ -22,9 +22,9 @@ const Knowledge = () => {
         <p className="text-[#2E2437] font-bold text-[40px]">
           Kiến thức chăm sóc chó mèo
         </p>
-        <span className="font-semibold text-[20px] text-[#000000]">
+        {/* <span className="font-semibold text-[20px] text-[#000000]">
           Xem tất cả
-        </span>
+        </span> */}
       </div>
       <div className="grid grid-cols-3 gap-4">
   <div className="article">
